@@ -37,6 +37,10 @@ class Condidature
     #[ORM\JoinColumn(nullable: false)]
     private ?Etudiant $etudiant = null;
 
+    #[ORM\ManyToOne(inversedBy: 'condidatures')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Opportunity $opportunity = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -115,6 +119,18 @@ class Condidature
     public function setEtudiant(?Etudiant $etudiant): static
     {
         $this->etudiant = $etudiant;
+
+        return $this;
+    }
+
+    public function getOpportunity(): ?Opportunity
+    {
+        return $this->opportunity;
+    }
+
+    public function setOpportunity(?Opportunity $opportunity): static
+    {
+        $this->opportunity = $opportunity;
 
         return $this;
     }

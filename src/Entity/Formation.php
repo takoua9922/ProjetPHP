@@ -19,6 +19,10 @@ class Formation
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'formations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Club $createdBy = null;
+
 
 
     public function getId(): ?int
@@ -47,6 +51,18 @@ class Formation
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?Club
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?Club $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

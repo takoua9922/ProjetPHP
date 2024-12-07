@@ -12,14 +12,14 @@
     <title>Education - List of Meetings</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ vendor('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="{{asset('css/fontawesome.css')}}">
-    <link rel="stylesheet" href="{{asset('css/templatemo-edu-meeting.css')}}">
-    <link rel="stylesheet" href="{{asset('css/owl.css')}}">
-    <link rel="stylesheet" href="{{asset('css/lightbox.css')}}">
+    <link rel="stylesheet" href="{{ assets('css/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ assets('css/templatemo-edu-meeting.css') }}">
+    <link rel="stylesheet" href="{{ assets('css/owl.css') }}">
+    <link rel="stylesheet" href="{{ assets('css/lightbox.css') }}">
 <!--
 
 TemplateMo 569 Edu Meeting
@@ -69,21 +69,19 @@ https://templatemo.com/tm-569-edu-meeting
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li><a href="{{ path('app_service') }}">Home</a></li>
-                          <li><a href="{{ path('app_meeting') }}">Meetings</a></li>
-                          <li><a href="{{ path('app_apply_now') }}">Apply Now</a></li>
+                          <li><a href="index.html">Home</a></li>
+                          <li><a href="meetings.html" class="active">Meetings</a></li>
+                          <li><a href="index.html">Apply Now</a></li>
                           <li class="has-sub">
                               <a href="javascript:void(0)">Pages</a>
                               <ul class="sub-menu">
-                                  <li><a href="{{ path('app_opportunity_new') }}">Ajouter une Opportunity</a></li>
-                      
-                                <li><a href="{{ path('app_opportunity_index') }}">tous les opportunities</a></li>
+                                  <li><a href="meetings.html">Upcoming Meetings</a></li>
+                                  <li><a href="meeting-details.html">Meeting Details</a></li>
                               </ul>
                           </li>
-                          <li><a href="{{ path('app_courses') }}">Courses</a></li>
-                          <li><a href="{{ path('app_contact_us') }}">Contact Us</a></li>
-                      </ul>
-  
+                          <li><a href="index.html">Courses</a></li> 
+                          <li><a href="index.html">Contact Us</a></li> 
+                      </ul>        
                       <a class='menu-trigger'>
                           <span>Menu</span>
                       </a>
@@ -96,6 +94,7 @@ https://templatemo.com/tm-569-edu-meeting
   <!-- ***** Header Area End ***** -->
 
   <section class="heading-page header-text" id="top">
+  
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
@@ -107,6 +106,7 @@ https://templatemo.com/tm-569-edu-meeting
   </section>
 
   <section class="meetings-page" id="meetings">
+  {% block meeting %}
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
@@ -129,7 +129,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$14.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-01.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-01.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -146,7 +146,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$22.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-02.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-02.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -163,7 +163,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$24.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-03.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-03.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -180,7 +180,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$32.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-04.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-04.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -197,7 +197,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$34.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-02.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-02.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -214,7 +214,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$45.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-03.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-03.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -231,7 +231,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$52.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-01.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-01.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -248,7 +248,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$64.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-02.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-02.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -265,7 +265,7 @@ https://templatemo.com/tm-569-edu-meeting
                       <div class="price">
                         <span>$74.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{{asset('images/meeting-03.jpg')}}" alt=""></a>
+                      <a href="meeting-details.html"><img src="{{ asset('images/meeting-03.jpg') }}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
@@ -292,26 +292,27 @@ https://templatemo.com/tm-569-edu-meeting
         </div>
       </div>
     </div>
-    <div class="footer">
+  {% {% endblock %}
+  </section>
+  <div class="footer">
       <p>Copyright © 2022 Edu Meeting Co., Ltd. All Rights Reserved. 
           <br>Design: <a href="https://templatemo.com/page/1" target="_parent" title="website templates">TemplateMo</a></p>
     </div>
-  </section>
 
 
-  <!-- Scripts -->
+  
   <!-- Bootstrap core JavaScript -->
-    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ vendor('jquery/jquery.min.js') }}"></script>
+    <script src="{{ vendor('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <script src="{{asset('js/isotope.min.js')}}"></script>
-    <script src="{{asset('js/owl-carousel.js')}}"></script>
-    <script src="{{asset('js/lightbox.js')}}"></script>
-    <script src="{{asset('js/tabs.js')}}"></script>
-    <script src="{{asset('js/isotope.js')}}"></script>
-    <script src="{{asset('js/video.js')}}"></script>
-    <script src="{{asset('js/slick-slider.js')}}"></script>
-    <script src="{{asset('js/custom.js')}}"></script>
+    <script src="{{ asset('js/isotope.min.js') }}"></script>
+    <script src="{{ asset('js/owl-carousel.js') }}"></script>
+    <script src="{{ asset('js/lightbox.js') }}"></script>
+    <script src="{{ asset('js/tabs.js') }}"></script>
+    <script src="{{ asset('js/isotope.js') }}"></script>
+    <script src="{{ asset('js/video.js') }}"></script>
+    <script src="{{ asset('js/slick-slider.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
     <script>
         //according to loftblog tut
         $('.nav li:first').addClass('active');

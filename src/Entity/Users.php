@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Doctrine\DBAL\Driver\Mysqli\Initializer\Options;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -17,9 +19,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 #[ORM\DiscriminatorMap([
     "etudiant" => Etudiant::class,
     "societe" => Societe::class,
+    "user" => Users::class, 
     "administration" => Administration::class,
     "club" => Club::class,
 ])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -27,18 +31,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180 , unique: true)]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
     private ?string $password = null;
 
@@ -51,48 +52,27 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $adress = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column (type:'date')]
+    private ?\DateTime $created_at = null;
     
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reclamation::class, orphanRemoval: true)]
     private Collection $reclamations;
+    
 
-public function __construct()
-{
-    $this->reclamations = new ArrayCollection();
-}
 
 /**
- * @return Collection<int, Reclamation>
+ * Initializes a new Users instance, setting up an empty collection for reclamations
+ * and assigning the current timestamp to the creation date.
  */
-public function getReclamations(): Collection
-{
-    return $this->reclamations;
-}
-
-public function addReclamation(Reclamation $reclamation): self
-{
-    if (!$this->reclamations->contains($reclamation)) {
-        $this->reclamations->add($reclamation);
-        $reclamation->setUser($this);
+    public function __construct()
+    {
+        $this->reclamations = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
-
-    return $this;
-}
-
-public function removeReclamation(Reclamation $reclamation): self
-{
-    if ($this->reclamations->removeElement($reclamation)) {
-        // Set the owning side to null (unless already changed)
-        if ($reclamation->getUser() === $this) {
-            $reclamation->setUser(null);
-        }
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles);
     }
-
-    return $this;
-}
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -106,46 +86,40 @@ public function removeReclamation(Reclamation $reclamation): self
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     * @return list<string>
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // Garantir que chaque utilisateur a au moins le rôle "ROLE_USER"
+        if (!in_array('ROLE_USER', $roles, true)) {
+            $roles[] = 'ROLE_USER';
+        }
 
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
+        // Ajouter une vérification des rôles valides
+        $validRoles = ['ROLE_ETUDIANT', 'ROLE_ADMINISTRATION', 'ROLE_CLUB', 'ROLE_SOCIETE'];
 
+        foreach ($roles as $role) {
+            if (!in_array($role, $validRoles, true)) {
+                throw new \InvalidArgumentException(sprintf('Le rôle "%s" est invalide.', $role));
+            }
+        }
+
+        $this->roles = $roles;
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -154,17 +128,12 @@ public function removeReclamation(Reclamation $reclamation): self
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // Si vous stockez des données sensibles temporaires, les effacer ici
     }
 
     public function getNom(): ?string
@@ -175,7 +144,6 @@ public function removeReclamation(Reclamation $reclamation): self
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -187,7 +155,6 @@ public function removeReclamation(Reclamation $reclamation): self
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -199,21 +166,46 @@ public function removeReclamation(Reclamation $reclamation): self
     public function setAdress(string $adress): static
     {
         $this->adress = $adress;
-
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTime $created_at): self
     {
         $this->created_at = $created_at;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reclamation>
+     */
+    public function getReclamations(): Collection
+    {
+        return $this->reclamations;
+    }
+
+    public function addReclamation(Reclamation $reclamation): self
+    {
+        if (!$this->reclamations->contains($reclamation)) {
+            $this->reclamations->add($reclamation);
+            $reclamation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReclamation(Reclamation $reclamation): self
+    {
+        if ($this->reclamations->removeElement($reclamation)) {
+            if ($reclamation->getUser() === $this) {
+                $reclamation->setUser(null);
+            }
+        }
 
         return $this;
     }
 }
-
-

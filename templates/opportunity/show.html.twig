@@ -1,0 +1,23 @@
+{% extends 'index.html.twig' %}
+
+{% block meeting %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Détails de l'opportunité</h1>
+    
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2>{{ opportunity.title }}</h2>
+            <p><strong>Description:</strong> {{ opportunity.description }}</p>
+            <p><strong>Université:</strong> {{ opportunity.university }}</p>
+            <p><strong>Pays:</strong> {{ opportunity.country }}</p>
+            <p><strong>Date de création:</strong> {{ opportunity.createdAt|date('d/m/Y H:i') }}</p>
+            <p><strong>Créé par:</strong> {{ opportunity.createdBy ? opportunity.createdBy.nom ~ ' ' ~ opportunity.createdBy.prenom : 'N/A' }}</p>
+            
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ path('app_opportunity_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                <a href="{{ path('app_opportunity_edit', {'id': opportunity.id}) }}" class="btn btn-warning">Modifier</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

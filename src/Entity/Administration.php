@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use App\Entity\Users;
 
 use App\Repository\AdministrationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,16 +16,18 @@ class Administration extends Users
     #[ORM\Column(length: 50)]
     private ?string $department = null;
 
+
+
     /**
-     * @var Collection<int, Mobilite>
+     * @var Collection<int, Opportunity>
      */
-    #[ORM\OneToMany(targetEntity: Mobilite::class, mappedBy: 'createdBy', orphanRemoval: true)]
-    private Collection $mobilites;
+    #[ORM\OneToMany(targetEntity: Opportunity::class, mappedBy: 'createdBy', orphanRemoval: true)]
+    private Collection $opportunities;
 
     public function __construct()
     {
         parent::__construct();
-        $this->mobilites = new ArrayCollection();
+        $this->opportunities = new ArrayCollection();
     }
 
    
@@ -41,30 +44,32 @@ class Administration extends Users
         return $this;
     }
 
+   
+
     /**
-     * @return Collection<int, Mobilite>
+     * @return Collection<int, Opportunity>
      */
-    public function getMobilites(): Collection
+    public function getOpportunities(): Collection
     {
-        return $this->mobilites;
+        return $this->opportunities;
     }
 
-    public function addMobilite(Mobilite $mobilite): static
+    public function addOpportunity(Opportunity $opportunity): static
     {
-        if (!$this->mobilites->contains($mobilite)) {
-            $this->mobilites->add($mobilite);
-            $mobilite->setCreatedBy($this);
+        if (!$this->opportunities->contains($opportunity)) {
+            $this->opportunities->add($opportunity);
+            $opportunity->setCreatedBy($this);
         }
 
         return $this;
     }
 
-    public function removeMobilite(Mobilite $mobilite): static
+    public function removeOpportunity(Opportunity $opportunity): static
     {
-        if ($this->mobilites->removeElement($mobilite)) {
+        if ($this->opportunities->removeElement($opportunity)) {
             // set the owning side to null (unless already changed)
-            if ($mobilite->getCreatedBy() === $this) {
-                $mobilite->setCreatedBy(null);
+            if ($opportunity->getCreatedBy() === $this) {
+                $opportunity->setCreatedBy(null);
             }
         }
 

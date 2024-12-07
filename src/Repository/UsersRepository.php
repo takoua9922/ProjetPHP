@@ -32,6 +32,14 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+    public function findUsersByRole(string $role)
+    {
+        return $this->createQueryBuilder('u')
+            ->where("JSON_CONTAINS(u.roles, :role) = 1")  // Check if role exists in the roles array
+            ->setParameter('role', '"' . $role . '"')    // Use JSON format (e.g. '"administration"')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Users[] Returns an array of Users objects
@@ -57,4 +65,5 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }
