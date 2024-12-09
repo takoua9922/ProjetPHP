@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Driver\Mysqli\Initializer\Options;
 
+
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\InheritanceType("SINGLE_TABLE")]
@@ -58,6 +59,44 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reclamation::class, orphanRemoval: true)]
     private Collection $reclamations;
     
+    
+
+#[ORM\OneToMany(targetEntity: Opportunity::class, mappedBy: "createdBy")]
+private Collection $opportunities;
+
+
+
+/**
+ * @return Collection<int, Opportunity>
+ */
+public function getOpportunities(): Collection
+{
+    return $this->opportunities;
+}
+
+public function addOpportunity(Opportunity $opportunity): static
+{
+    if (!$this->opportunities->contains($opportunity)) {
+        $this->opportunities->add($opportunity);
+        $opportunity->setCreatedBy($this);
+    }
+
+    return $this;
+}
+
+public function removeOpportunity(Opportunity $opportunity): static
+{
+    if ($this->opportunities->removeElement($opportunity)) {
+        // Set the owning side to null (unless already changed)
+        if ($opportunity->getCreatedBy() === $this) {
+            $opportunity->setCreatedBy(null);
+        }
+    }
+
+    return $this;
+}
+
+    
 
 
 /**
@@ -68,6 +107,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->reclamations = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->opportunities = new ArrayCollection();
     }
     public function hasRole(string $role): bool
     {

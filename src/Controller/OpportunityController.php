@@ -25,9 +25,12 @@ class OpportunityController extends AbstractController
     public function index(OpportunityRepository $opportunityRepository): Response
     {
         $opportunities = $opportunityRepository->findAll();
-    dump($opportunities); // Affiche les opportunités dans les logs de Symfony
-    return $this->render('opportunity/index.html.twig', [
-        'opportunities' => $opportunities,
+
+        // Ajoutez un dump ici pour vérifier le contenu de $opportunities
+      
+    
+        return $this->render('opportunity/index.html.twig', [
+            'opportunities' => $opportunities,
         ]);
     }
 
@@ -107,6 +110,23 @@ class OpportunityController extends AbstractController
     return $this->redirectToRoute('app_opportunity_index', [], Response::HTTP_SEE_OTHER);
 
 }
+#[Route('/my-opportunities', name: 'app_opportunity_my', methods: ['GET'])]
+public function myOpportunities(OpportunityRepository $opportunityRepository): Response
+{
+    $user = $this->getUser();
+    if (!$user) {
+        throw new \Exception('Utilisateur non t rouvé.');
+    }
+
+    $opportunities = $opportunityRepository->findByCreatedBy($user);
+    dump($opportunities); // Vérifiez que les opportunités sont récupérées
+
+    return $this->render('opportunity/my_opportunities.html.twig', [
+        'opportunities' => $opportunities,
+    ]);
+}
+
+
 
 
 }

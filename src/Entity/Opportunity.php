@@ -47,9 +47,10 @@ class Opportunity
     private ?\DateTimeImmutable $createdAt = null;
 
     
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Users",fetch: "EAGER" , inversedBy:"opportunities")]
-    #[ORM\JoinColumn(name: "created_by_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: "App\Entity\Users", inversedBy: "opportunities")]
+    #[ORM\JoinColumn(name: "created_by_id", referencedColumnName: "id", nullable: false)]
     private ?Users $createdBy = null;
+
 
 
     /**

@@ -8,8 +8,6 @@ meeting_details:
     path: /meeting/details
     controller: App\Controller\MeetingController::meetingDetails
 
-view_opportunities:
-  path: /view
-  controller: App\Controller\OpportunityController::viewOpportunities
+
 
 

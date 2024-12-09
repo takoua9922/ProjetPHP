@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Opportunity;
+use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -41,5 +42,15 @@ class OpportunityRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+public function findByCreatedBy(Users $user): array
+{
+    return $this->createQueryBuilder('o')
+        ->andWhere('o.createdBy = :user')
+        ->setParameter('user', $user)
+        ->getQuery()
+        ->getResult();
+}
+
+ 
 
 }

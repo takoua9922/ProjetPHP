@@ -1,0 +1,6 @@
+<h1>Bienvenue sur le tableau de bord administrateur</h1>
+{% for opportunity in opportunities %}
+    <div>
+        <strong>{{ opportunity.title }}</strong>: {{ opportunity.description }}
+    </div>
+{% endfor %}

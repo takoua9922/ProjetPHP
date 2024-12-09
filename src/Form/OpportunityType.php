@@ -46,11 +46,11 @@ class OpportunityType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('createdBy', EntityType::class, [
-                'class' => Users::class,  
+                'class' => Users::class,      
                 'query_builder' => function (EntityRepository $er) {
             return $er->createQueryBuilder('u')
-                ->where('u.roles LIKE :role')  // Utilisation d'une simple recherche par chaîne
-                ->setParameter('role', '%ROLE_ADMINISTRATION%')  // Chercher tous les utilisateurs avec le rôle "ROLE_ADMINISTRATION"
+                ->where('u.roles LIKE :role') 
+                ->setParameter('role', '%ROLE_ADMINISTRATION%')  
                 ->orderBy('u.nom', 'ASC');
         },
         'choice_label' => 'nom',
