@@ -66,7 +66,6 @@ class UsersAuthanticationAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
         }
     
-        // Redirection par défaut si aucun rôle n'est détecté
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
     

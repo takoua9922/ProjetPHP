@@ -1,6 +1,5 @@
-{% extends 'index.html.twig' %}
-
-{% block meeting %}
+{% extends 'opportunity.html.twig' %}
+{% block table %}
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Modifier l'opportunité</h1>
@@ -40,7 +39,7 @@
 
             <div class="d-flex justify-content-between">
                 <button class="btn btn-primary">Enregistrer</button>
-                <a href="{{ path('app_opportunity_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                <a href="{{ path('app_dashboard') }}" class="btn btn-secondary">Retour à la liste</a>
             </div>
 
             {{ form_end(form) }}

@@ -1,6 +1,6 @@
-{% extends 'index.html.twig' %}
+{% extends 'opportunity.html.twig' %}
 
-{% block meeting %}
+{% block table %}
 <div class="container mt-5">
     <h1 class="text-center mb-4">Détails de l'opportunité</h1>
     
@@ -14,7 +14,7 @@
             <p><strong>Créé par:</strong> {{ opportunity.createdBy ? opportunity.createdBy.nom ~ ' ' ~ opportunity.createdBy.prenom : 'N/A' }}</p>
             
             <div class="d-flex justify-content-between mt-4">
-                <a href="{{ path('app_opportunity_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                <a href="{{ path('app_dashboard') }}" class="btn btn-secondary">Retour à la liste</a>
                 <a href="{{ path('app_opportunity_edit', {'id': opportunity.id}) }}" class="btn btn-warning">Modifier</a>
             </div>
         </div>

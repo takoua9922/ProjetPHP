@@ -39,7 +39,7 @@ class OpportunityController extends AbstractController
     {
         // Vérification que l'utilisateur a bien le rôle 'ROLE_ADMINISTRATION'
         if (!$this->isGranted('ROLE_ADMINISTRATION')) {
-            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'ajouter une opportunité.");
+            return $this->render('404.html.twig');
         }
 
         $opportunity = new Opportunity();

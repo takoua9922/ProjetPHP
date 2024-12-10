@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h1 class="h3 mb-4 font-weight-normal text-center">Please sign in</h1>
+            <h1 class="h3 mb-4 font-weight-normal text-center" , style="color: red;">Please sign in</h1>
 
             {% if error %}
                 <div class="alert alert-danger">
@@ -13,7 +13,7 @@
             {% endif %}
 
             {% if app.user %}
-                <div class="alert alert-info">
+                <div class="alert alert-info"  , style="color: red;">
                     You are logged in as {{ app.user.userIdentifier }}. 
                     <a href="{{ path('app_logout') }}">Logout</a>
                 </div>
@@ -21,24 +21,24 @@
 
             <form method="post">
                 <div class="form-group">
-                    <label for="inputEmail">Email address</label>
+                    <label for="inputEmail"  , style="color: red;">Email address</label>
                     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="Enter your email">
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback"  , style="color: red;">
                         Please provide a valid email address.
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputPassword">Password</label>
+                    <label for="inputPassword"  , style="color: red;">Password</label>
                     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Enter your password">
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" >
                         Please provide a valid password.
                     </div>
                 </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                <div class="form-check">
+                <div class="form-check"  , style="color: red;">
                     <input type="checkbox" name="_remember_me" class="form-check-input" id="rememberMe">
                     <label class="form-check-label" for="rememberMe">Remember me</label>
                 </div>
